@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
-import { CalendarClock, FolderKanban, Plus, Users, Activity, Calculator } from "lucide-react";
+import { CalendarClock, FolderKanban, Plus, Users, Activity, Calculator, Wallet } from "lucide-react";
 import { clientsQuery, projectsQuery } from "@/lib/api";
-import { PROJECT_STATUSES, fmtDate } from "@/lib/domain";
+import { PROJECT_STATUSES, fmtDate, brl } from "@/lib/domain";
 import { Button } from "@/components/ui/button";
 import { Empty, PageHeader, Panel, StatCard, StatusBadge } from "@/components/app/ui-bits";
 
@@ -48,12 +48,12 @@ function Dashboard() {
         actions={
           <>
             <Button asChild><Link to="/projetos/novo"><Plus /> Novo Projeto</Link></Button>
-            <Button asChild variant="secondary"><Link to="/clientes/novo"><Plus /> Novo Cliente</Link></Button>
             <Button asChild variant="secondary"><Link to="/calculadora"><Calculator /> Calculadora</Link></Button>
           </>
         }
       />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+        <StatCard tone="orange" label="Faturamento total" value={brl(projects.filter((p) => p.status !== "Cancelado").reduce((s, p) => s + Number(p.value ?? 0), 0))} icon={<Wallet className="size-5" />} />
         <StatCard tone="blue" label="Total de projetos" value={projects.length} icon={<FolderKanban className="size-5" />} />
         <StatCard tone="green" label="Projetos ativos" value={active.length} icon={<Activity className="size-5" />} />
         <StatCard tone="yellow" label="Total de clientes" value={clients.length} icon={<Users className="size-5" />} />
