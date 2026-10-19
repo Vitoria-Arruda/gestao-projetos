@@ -45,7 +45,7 @@ export function ProjectForm({ project }: { project?: Project }) {
     let clientId = parsed.data.client_id ?? "";
     setSaving(true);
     if (mode === "new") {
-      const c = newClientSchema.safeParse({ name: fd.client_name, email: fd.client_email ?? "", phone: fd.client_phone ?? "" });
+      const c = newClientSchema.safeParse({ name: fd["client_name"], email: fd["client_email"] ?? "", phone: fd["client_phone"] ?? "" });
       if (!c.success) { setSaving(false); toast.error(c.error.issues[0]?.message ?? "Cliente inválido"); return; }
       const cr = await supabase.from("clients").insert(c.data).select().single();
       if (cr.error) { setSaving(false); toast.error(cr.error.message); return; }
