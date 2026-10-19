@@ -34,7 +34,7 @@ function ClientsList() {
 
   return (
     <>
-      <PageHeader title="Clientes" />
+      <PageHeader title="Clientes" actions={<Button asChild><Link to="/clientes/novo"><Plus /> Novo Cliente</Link></Button>} />
       <Input className="mb-4 max-w-sm" placeholder="Buscar por nome…" value={search} onChange={(e) => setSearch(e.target.value)} />
       <Panel className="overflow-x-auto p-0">
         {list.length ? (
