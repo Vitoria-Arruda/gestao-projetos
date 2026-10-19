@@ -36,7 +36,7 @@ function Detail() {
 
   async function saveNotes() {
     const { error } = await supabase.from("projects").update({ notes }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Notas salvas");
     qc.invalidateQueries({ queryKey: ["projects"] });
   }
@@ -45,7 +45,7 @@ function Detail() {
     const title = newStep.trim().slice(0, 200);
     if (!title) return;
     const { error } = await supabase.from("project_steps").insert({ project_id: id, title, position: steps.length });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setNewStep("");
     refreshSteps();
   }

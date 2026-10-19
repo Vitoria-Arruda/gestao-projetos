@@ -24,10 +24,10 @@ function ClientsList() {
   async function remove(id: string, name: string) {
     const { count } = await supabase.from("projects").select("id", { count: "exact", head: true }).eq("client_id", id);
     if ((count ?? 0) > 0 || projects.some((p) => p.client_id === id))
-      return toast.error("Este cliente tem projetos vinculados e não pode ser excluído.");
+      { toast.error("Este cliente tem projetos vinculados e não pode ser excluído."); return; }
     if (!confirm(`Excluir o cliente "${name}"?`)) return;
     const { error } = await supabase.from("clients").delete().eq("id", id);
-    if (error) return toast.error("Não foi possível excluir: verifique projetos vinculados.");
+    if (error) { toast.error("Não foi possível excluir: verifique projetos vinculados."); return; }
     toast.success("Cliente excluído");
     qc.invalidateQueries({ queryKey: ["clients"] });
   }

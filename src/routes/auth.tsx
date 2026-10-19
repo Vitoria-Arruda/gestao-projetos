@@ -39,12 +39,12 @@ function AuthPage() {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse({ email: fd.get("email"), password: fd.get("password") });
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0]?.message ?? "Dados inválidos"); return; }
     setLoading(true);
     if (mode === "login") {
       const { error } = await supabase.auth.signInWithPassword(parsed.data);
       setLoading(false);
-      if (error) return toast.error("Email ou senha incorretos");
+      if (error) { toast.error("Email ou senha incorretos"); return; }
       navigate({ to: "/dashboard" });
     } else {
       const { data, error } = await supabase.auth.signUp({
@@ -52,7 +52,7 @@ function AuthPage() {
         options: { emailRedirectTo: window.location.origin },
       });
       setLoading(false);
-      if (error) return toast.error(error.message);
+      if (error) { toast.error(error.message); return; }
       if (data.session) navigate({ to: "/dashboard" });
       else {
         toast.success("Conta criada! Confirme pelo link enviado ao seu email.");
