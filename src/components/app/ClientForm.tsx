@@ -27,13 +27,13 @@ export function ClientForm({ client }: { client?: Client }) {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const parsed = schema.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0]?.message ?? "Dados inválidos"); return; }
     setSaving(true);
     const res = client
       ? await supabase.from("clients").update(parsed.data).eq("id", client.id)
       : await supabase.from("clients").insert(parsed.data);
     setSaving(false);
-    if (res.error) return toast.error(res.error.message);
+    if (res.error) { toast.error(res.error.message); return; }
     await qc.invalidateQueries({ queryKey: ["clients"] });
     toast.success("Cliente salvo");
     navigate({ to: "/clientes" });

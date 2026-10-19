@@ -29,9 +29,9 @@ function Params() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const parsed = schema.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
-    if (!parsed.success) return toast.error("Valores inválidos");
+    if (!parsed.success) { toast.error("Valores inválidos"); return; }
     const { error } = await supabase.from("pricing_settings").upsert({ user_id: user.id, ...parsed.data, updated_at: new Date().toISOString() });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Parâmetros salvos");
     qc.invalidateQueries({ queryKey: ["settings"] });
   }

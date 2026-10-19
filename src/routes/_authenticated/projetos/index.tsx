@@ -28,7 +28,7 @@ function ProjectsList() {
   async function remove(id: string, name: string) {
     if (!confirm(`Excluir o projeto "${name}"?`)) return;
     const { error } = await supabase.from("projects").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Projeto excluído");
     qc.invalidateQueries({ queryKey: ["projects"] });
   }
