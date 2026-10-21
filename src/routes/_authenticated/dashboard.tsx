@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CalendarClock, FolderKanban, Plus, Users, Activity, Calculator, Wallet } from "lucide-react";
 import { clientsQuery, projectsQuery } from "@/lib/api";
 import { PROJECT_STATUSES, fmtDate, brl } from "@/lib/domain";
