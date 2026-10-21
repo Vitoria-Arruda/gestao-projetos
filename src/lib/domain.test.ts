@@ -38,8 +38,8 @@ describe("regras", () => {
   });
   it("mascara telefone como (00)00000-0000", () => {
     expect(maskPhone("11987654321")).toBe("(11)98765-4321");
-    expect(maskPhone("1198765432")).toBe("(11)9876-5432");
     expect(maskPhone("1198765")).toBe("(11)98765");
     expect(maskPhone("(11) 98765-4321")).toBe("(11)98765-4321");
+    expect(maskPhone("1134567890")).toBe("(11)3456-7890");
   });
 });

@@ -64,11 +64,14 @@ export function parseValueInput(raw: string): number {
   return digits ? Number(digits) / 100 : 0;
 }
 
-/** Masks a phone as (00)00000-0000 while typing (10-digit landlines become (00)0000-0000). */
+/** Masks a phone while typing: mobile (00)00000-0000, landline (00)0000-0000 (by the 3rd digit). */
 export function maskPhone(raw: string): string {
   const d = raw.replace(/\D/g, "").slice(0, 11);
   if (!d) return "";
   if (d.length <= 2) return `(${d}`;
-  if (d.length <= 10) return `(${d.slice(0, 2)})${d.slice(2, 6)}${d.length > 6 ? "-" : ""}${d.slice(6)}`;
-  return `(${d.slice(0, 2)})${d.slice(2, 7)}-${d.slice(7)}`;
+  const local = d.slice(2);
+  const landline = local[0] >= "2" && local[0] <= "5";
+  const block = landline ? local.slice(0, 4) : local.slice(0, 5);
+  const rest = landline ? local.slice(4) : local.slice(5);
+  return `(${d.slice(0, 2)})${block}${rest ? `-${rest}` : ""}`;
 }
