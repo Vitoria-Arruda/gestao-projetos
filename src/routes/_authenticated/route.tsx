@@ -35,7 +35,7 @@ function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background md:flex-row">
-      <aside className="border-b border-sidebar-border bg-sidebar text-sidebar-foreground md:sticky md:top-0 md:flex md:h-screen md:w-60 md:flex-col md:border-b-0 md:border-r">
+      <aside className="min-w-0 shrink-0 border-b border-sidebar-border bg-sidebar text-sidebar-foreground md:sticky md:top-0 md:flex md:h-screen md:w-60 md:flex-col md:border-b-0 md:border-r">
         <div className="flex items-center gap-3 px-5 py-5">
           <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <LayoutGrid className="size-4" />
@@ -65,8 +65,8 @@ function Layout() {
           <LogOut className="size-4" /> Sair
         </button>
       </aside>
-      <main className="flex-1 px-4 py-6 md:px-10 md:py-10">
-        <div className="mx-auto max-w-6xl">
+      <main className="min-w-0 flex-1 px-4 py-6 md:px-10 md:py-10">
+        <div className="mx-auto min-w-0 max-w-6xl">
           <Outlet />
         </div>
       </main>
