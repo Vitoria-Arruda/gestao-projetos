@@ -47,3 +47,28 @@ export const brl = (n: number) =>
 
 export const fmtDate = (d: string | null) =>
   d ? new Date(d + "T00:00:00").toLocaleDateString("pt-BR") : "—";
+
+/** Formats digits typed in a value field as 1.234,56 (pt-BR, 2 decimals). */
+export function formatValueInput(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 11);
+  if (!digits) return "";
+  return (Number(digits) / 100).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+/** Parses a formatted pt-BR value ("1.234,56") back into a number. */
+export function parseValueInput(raw: string): number {
+  const digits = raw.replace(/\D/g, "");
+  return digits ? Number(digits) / 100 : 0;
+}
+
+/** Masks a phone as (00)00000-0000 while typing (10-digit landlines become (00)0000-0000). */
+export function maskPhone(raw: string): string {
+  const d = raw.replace(/\D/g, "").slice(0, 11);
+  if (!d) return "";
+  if (d.length <= 2) return `(${d}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)})${d.slice(2, 6)}${d.length > 6 ? "-" : ""}${d.slice(6)}`;
+  return `(${d.slice(0, 2)})${d.slice(2, 7)}-${d.slice(7)}`;
+}
