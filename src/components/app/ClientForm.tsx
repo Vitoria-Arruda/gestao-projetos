@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
+import { maskPhone } from "@/lib/domain";
 import { supabase } from "@/integrations/supabase/client";
 import type { Client } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -51,7 +52,10 @@ export function ClientForm({ client }: { client?: Client }) {
       <form onSubmit={onSubmit} className="grid gap-5 md:grid-cols-2">
         {f("name", "Nome")}
         {f("email", "Email", "email")}
-        {f("phone", "Telefone", "tel")}
+        <div className="space-y-2">
+          <Label htmlFor="phone">Telefone</Label>
+          <Input id="phone" name="phone" type="tel" defaultValue={client?.phone ?? ""} placeholder="(00)00000-0000" onInput={(e) => { e.currentTarget.value = maskPhone(e.currentTarget.value); }} />
+        </div>
         {f("company", "Empresa")}
         <div className="space-y-2 md:col-span-2">
           <Label htmlFor="notes">Observações</Label>
