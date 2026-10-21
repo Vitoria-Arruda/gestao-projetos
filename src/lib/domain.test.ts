@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { calculatePrice, filterProjects, DEFAULT_STATUS } from "./domain";
+import {
+  calculatePrice,
+  filterProjects,
+  formatValueInput,
+  maskPhone,
+  parseValueInput,
+  DEFAULT_STATUS,
+} from "./domain";
 
 const list = [
   { name: "Site Alfa", client_id: "a", status: "Em andamento", deadline: "2026-12-01" },
@@ -19,5 +26,20 @@ describe("regras", () => {
   });
   it("calcula preço", () => {
     expect(calculatePrice({ hourlyRate: 100, hours: 10, complexity: 1.5, extraCosts: 500, margin: 20 }).total).toBe(2400);
+  });
+  it("formata valor com . de milhar e , de centavos", () => {
+    expect(formatValueInput("150000")).toBe("1.500,00");
+    expect(formatValueInput("1234")).toBe("12,34");
+  });
+  it("lê valor formatado de volta como número", () => {
+    expect(parseValueInput("1.500,00")).toBe(1500);
+    expect(parseValueInput("12,34")).toBe(12.34);
+    expect(parseValueInput("")).toBe(0);
+  });
+  it("mascara telefone como (00)00000-0000", () => {
+    expect(maskPhone("11987654321")).toBe("(11)98765-4321");
+    expect(maskPhone("1198765")).toBe("(11)98765");
+    expect(maskPhone("(11) 98765-4321")).toBe("(11)98765-4321");
+    expect(maskPhone("1134567890")).toBe("(11)3456-7890");
   });
 });
