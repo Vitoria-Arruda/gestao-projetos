@@ -70,7 +70,8 @@ export function maskPhone(raw: string): string {
   if (!d) return "";
   if (d.length <= 2) return `(${d}`;
   const local = d.slice(2);
-  const landline = local[0] >= "2" && local[0] <= "5";
+  const first = local.charAt(0);
+  const landline = first >= "2" && first <= "5" && first !== "";
   const block = landline ? local.slice(0, 4) : local.slice(0, 5);
   const rest = landline ? local.slice(4) : local.slice(5);
   return `(${d.slice(0, 2)})${block}${rest ? `-${rest}` : ""}`;
