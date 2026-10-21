@@ -3,18 +3,18 @@ import { cn } from "@/lib/utils";
 
 export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
   return (
-    <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h1>
+    <div className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:flex-wrap sm:justify-between">
+      <div className="min-w-0">
+        <h1 className="text-2xl font-bold md:text-3xl">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
-      {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
+      {actions && <div className="col-span-2 grid min-w-0 grid-cols-2 gap-2 sm:flex sm:shrink-0 sm:flex-wrap">{actions}</div>}
     </div>
   );
 }
 
 export function Panel({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cn("rounded-2xl border bg-card p-5 shadow-card", className)}>{children}</div>;
+  return <div className={cn("min-w-0 rounded-2xl border bg-card p-5 shadow-card", className)}>{children}</div>;
 }
 
 const tones = {
@@ -28,12 +28,12 @@ export type Tone = keyof typeof tones;
 
 export function StatCard({ tone, label, value, icon }: { tone: Tone; label: string; value: ReactNode; icon?: ReactNode }) {
   return (
-    <div className={cn("rounded-2xl p-5 text-on-color shadow-card", tones[tone])}>
-      <div className="flex items-center justify-between text-sm font-medium opacity-80">
-        {label}
-        {icon}
+    <div className={cn("min-w-0 rounded-2xl p-5 text-on-color shadow-card", tones[tone])}>
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 text-sm font-medium opacity-80">
+        <span className="min-w-0 break-words">{label}</span>
+        <span className="shrink-0">{icon}</span>
       </div>
-      <div className="mt-3 font-display text-3xl font-extrabold">{value}</div>
+      <div className="mt-3 min-w-0 font-display text-3xl leading-tight font-extrabold [overflow-wrap:anywhere]">{value}</div>
     </div>
   );
 }
